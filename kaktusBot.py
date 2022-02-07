@@ -3,24 +3,30 @@ from os import getenv, system
 from dotenv import load_dotenv as loadDotenv
 
 import lib.polls as polls
-from lib.help import helpMessage
-system('clear')
+import lib.manual as manual 
+
+
 class Client (discord.Client):
     async def on_ready(self):
+        system('clear')
         print(f'{self.user} successfully connected!')
-        await self.change_presence(status="idle", activity=discord.Game("Detroit: Become Human"))
+        await self.change_presence(status="idle",\
+                                   activity=discord.Game("Detroit: Become Human"))
+
     async def on_message(self, message):
         if message.author.id == self.user.id: # Stop recursion, the bot shouldn't 
             return                            #     read its own messages
 
-        # Check for bot command
         if message.content[0] == '~':
-            messageContent = message.content.split('"')
+            command = message.content.split()[0][1:] # first word without the first char (~)
+            print(f'{message.author} used {command} in {message.channel}')
             
+            if command == 'help':
+                await message.channel.send( manual.helpMessage() )
+
             # Create a normal poll
-            if messageContent[0] == '~help':
-                await message.channel.send(helpMessage())
-            elif messageContent[0] == '~poll ':
+            elif command == 'poll':
+                messageContent = message.content.split('"')
                 emojiReactions = ["0️⃣", "1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣"]
                 pollOptions = messageContent[2][1:].split(" ")
            
@@ -35,7 +41,8 @@ class Client (discord.Client):
                     await sentMessage.add_reaction(emojiReactions[idx])
 
             # Create a poll (answers only integers 1 up to 6)
-            elif messageContent[0] == '~pollNumbered ':
+            elif command == 'pollNumbered':
+                messageContent = message.content.split('"')
                 emojiReactions = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣"]
                 pollMessage = ["**Anketa:**", str(messageContent[1])]
                 sentMessage = await message.channel.send('\n'.join(pollMessage))
