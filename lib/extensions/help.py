@@ -14,11 +14,6 @@ Dostupné príkazy:
 - otázka musí byť vždy v úvodzovkách, možnosti iba jednoslovné
 - maximum možností je 7
 - použitie: `~poll "Najlepší predmet prváku?" ULI PKM TZP`
-
-**`~pollNumbered`** `"otazka ankety" pocetMoznosti`
-- vytvorí anketu s otázkou a možnosťami 1 - pocetMoznosti (max 6)
-- použitie: `~pollNumbered "Koľko predmetov ste úspešne zvládli? 6`
-
         """
 
 class Help(commands.Cog):
