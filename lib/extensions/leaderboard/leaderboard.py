@@ -20,7 +20,7 @@ class Leaderboard(commands.Cog):
                 messageCount += 1
 
         print(sorted(leaderBoard.items(), key = lambda x: x[1], reverse=True))
-        await ctx.send( message.message(leaderBoard, min(historyLimit, messageCount), max) )
+        await ctx.send( message(leaderBoard, min(historyLimit, messageCount), max) )
 
         return
 
