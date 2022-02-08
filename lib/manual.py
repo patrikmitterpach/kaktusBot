@@ -12,9 +12,10 @@ Dostupné príkazy:
 - maximum možností je 7
 - použitie: `~poll "Najlepší predmet prváku?" ULI PKM TZP`
 
-**`~pollNumbered`** `"otazka ankety" pocetMoznosti`
-- vytvorí anketu s otázkou a možnosťami 1 - pocetMoznosti (max 6)
-- použitie: `~pollNumbered "Koľko predmetov ste úspešne zvládli? 6`
+**`~rtd`**
+- hodenie kocky
+- odpoveďou je reakcia v rozsahu <1, 6>
+
 
         """
 
