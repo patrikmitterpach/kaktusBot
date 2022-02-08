@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-import lib.polls as polls
+from .src.polls import createPollMessage
 
 class Poll(commands.Cog):
     def __init__(self, bot):
@@ -15,7 +15,7 @@ class Poll(commands.Cog):
             await ctx.send(f"**Príliš veľa možností!**\n*(súčasné maximum: {len(reactions)})*")
             return
 
-        pollMessage = polls.createPollMessage(prompt, options)
+        pollMessage = createPollMessage(prompt, options)
 
         sentMessage = await ctx.send(pollMessage)
         for idx in range(len(options)):
