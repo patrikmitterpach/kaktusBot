@@ -1,4 +1,5 @@
 from os import listdir
+from glob import glob
 
 import discord
 from discord.ext import commands
@@ -26,7 +27,7 @@ class Bot(commands.Bot):
     def loadExtensions(self):
         print('Loading extensions:')
 
-        for filename in listdir('./lib/extensions'): #loads all files (*.py)
-            if filename.endswith('.py'):
-                self.load_extension(f'lib.extensions.{filename[:-3]}') # [:-3] to remove '.py' 
-                print(f'> Loaded {green}{filename[:-3]}{reset} from lib.extensions.{filename[:-3]}')
+        for filename in glob('./lib/extensions/*/*.py'):
+            module = filename.split('/')[-1] #loads all files (*.py)
+            self.load_extension(f'lib.extensions.{module[:-3]}.{module[:-3]}') # [:-3] to remove '.py' 
+            print(f'> Loaded {green}{module[:-3]}{reset} from lib.extensions.{module[:-3]}.')
