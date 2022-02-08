@@ -9,6 +9,7 @@ from lib.bot import Bot
 loadDotenv('.env')
 token = getenv('discordBotToken')
 
+system('clear')
 
 bot = Bot.create()
 bot.loadExtensions()
