@@ -10,9 +10,12 @@ currentStatus = 'idle'
 commandPrefix = '~'
 
 # ANSI Code Colors
-yellow = '\033[33m'
+red = '\033[31m'
 green = '\033[32m'
+yellow = '\033[33m'
+
 reset = '\033[m'
+
 
 def logExtension(extension):
     print(f'> Loaded {green}{extension}{reset}')
@@ -29,9 +32,22 @@ class Bot(commands.Bot):
                 help_command   = None )
         
     def loadExtensions(self):
+        # Extensions are assumed to be placed in /lib/extensions/name/name.py,
+        #   where name is the name of the extension.
+
         print('Loading extensions:')
-        extensions = load.findExtensions('./lib/extensions/*/*.py')
+        extensionPath = './lib/extensions/*/*.py' # regex for finding all modules
+        extensions = load.findExtensions(extensionPath)
+
+        errCount = 0
+        fullCount = len(extensions)
 
         for extension in extensions:
-            self.load_extension(extension) 
-            logExtension(extension)
+            try:
+                self.load_extension(extension) 
+                logExtension(extension)
+            except commands.NoEntryPointError:
+                print(f"{red}{extension}{reset} has no setup function.")
+                errCount += 1
+        
+        print(f"(Loaded {fullCount - errCount}/{fullCount} extensions)")
