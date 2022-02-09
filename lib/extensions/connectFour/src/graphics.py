@@ -1,38 +1,28 @@
 from os import system
-
-def drawBoard(board, currTurn, winner):
-    # The board is assumed to have dimensions 7x6, 
-    assert (len(board[0]) == 7)
-    assert (len(board)    == 6)
-
-    # visual representation of elements
-    columnNames = ['A', 'B', 'C', 
-                   'D', 'E', 'F', 'G']
-    positions = { -1: " \u001b[33m●\u001b[0m ",
-                   0: "   ",
-                   1: " \u001b[31m●\u001b[0m " }
+def createRow(board, row):
+    positions = {  -1: "  🔴  ",
+                    0: "          ",
+                    1: "  🟡  " }
     
-    separators = ['', '|']
-
+    currRow = ' '
+    for i in range(len(board[0]) - 1):
+        currRow = f'{currRow} {positions[board[row][i]]} |'
+    currRow = f'{currRow} {positions[board[row][6]]}'
     
-    # print("\r")
-    for row in range(6):
-        print("\t", end="")
-        for column in range(6):
-            print('{}|'.format(positions[board[row][column]]), end="")
-        print(f'{positions[board[row][6]]}', end="")
-        if row == 2:
-            if winner:
-                print("    WINNER:")
-            else:
-                print("  CURRENT TURN:")
+    return currRow
 
-        elif row == 3:
-            print("     \u001b[33mYELLOW\u001b[0m" if currTurn % 2 else "      \u001b[31mRED\u001b[0m")
-        else:
-            print("")
-    print("\t▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀")
-    print("\t", end="")
-    for column in columnNames:
-        print(f' {column} ', end=" ")
-    print("")
+def drawBoard(board):
+
+    # One item in list represents a row
+    message = ["**-------------                 CONNECT 4                 -------------**\n",
+               "         *Pre zvolenie stĺpca stlačte príslušnú reakciu.*",
+               "       *Ťah možno spraviť len ak je indikovaná ikonka",
+               "                                súčasného ťahu*",
+               "" ]
+
+    for i in range( len(board) ):
+        row = createRow(board, i)
+        message.append( row )
+
+    message.append( "▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀" )
+    return "\n".join(message)
